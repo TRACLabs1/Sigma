@@ -1,0 +1,22 @@
+title: Detects SMOKEDHAM DLL-Sideloading
+id: 94a3cf47-13c4-4df9-9f14-a071f60d9f13
+status: experimental
+description: Detects SMOKEDHAM DLL-Sideloading via oleview.exe, excluding its presence under "C:\Program Files (x86)\Windows Kits\10".
+author: RussianPanda
+date: 2024/11/18
+tags:
+    - t1574.002
+logsource:
+  category: process_creation
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    Image|endswith: '\oleview.exe'
+    ImageLoaded|endswith: '\aclui.dll'
+  filter:
+    Image|startswith: 'C:\Program Files (x86)\Windows Kits\10\'
+  condition: selection AND NOT filter
+falsepositives:
+    - Installation or legitimate use of Windows Kits tools
+level: high

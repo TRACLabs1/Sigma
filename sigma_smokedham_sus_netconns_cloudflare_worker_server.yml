@@ -1,0 +1,20 @@
+title: Detects suspicious connection to the Cloudflare worker server 
+id: 1cfc2562-06d7-44c3-adbd-f7c691e5cfa0
+status: experimental
+description: Detects suspicious connection to the Cloudflare worker server originating from the PowerShell process
+author: RussianPanda
+date: 2024/11/18
+tags:
+    - t1574.002
+logsource:
+  categoty: process_creation
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    Image|endswith: '\powershell.exe'
+    QueryName|endswith: 'workers.dev'
+  condition: selection 
+falsepositives:
+    - Unknown
+level: high
